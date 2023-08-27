@@ -8,7 +8,7 @@ import listItemReducer from './listItem';
 const rootReducer = combineReducers({
   auth: authReducer,
   lists: listsReducer,
-  listItems: listItemReducer,
+  // listItems: listItemReducer,
 });
 
 let enhancer;

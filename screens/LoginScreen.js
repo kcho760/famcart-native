@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, ActivityIndicator, Alert, StyleSheet } from 'react-native';
-import { useDispatch } from 'react-redux'; // Import useDispatch if you are using Redux
-import { loginUser } from '../store/auth'; // Path to your login action
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../store/auth';
 
 function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -32,6 +32,12 @@ function LoginScreen({ navigation }) {
     }
   };
 
+  const handleDemoLogin = async () => {
+    setEmail("test1@example.com");
+    setPassword("password123");
+    handleLogin();
+  };
+
   return (
     <View style={styles.container}>
       <Text>Email:</Text>
@@ -54,7 +60,10 @@ function LoginScreen({ navigation }) {
       {isLoading ? (
         <ActivityIndicator />
       ) : (
-        <Button title="Login" onPress={handleLogin} />
+        <>
+          <Button title="Login" onPress={handleLogin} />
+          <Button title="Demo Login" onPress={handleDemoLogin} />
+        </>
       )}
     </View>
   );
