@@ -32,7 +32,6 @@ export const signUpUser = (user) => async (dispatch) => {
 
 export const loginUser = (formData) => async (dispatch) => {
   try {
-    console.log('Attempting to log in with data:', formData); // Log the input data
 
     const response = await fetch('https://famcart-webservice-dgpp.onrender.com/auth/sign_in', {
       method: 'POST',
@@ -40,11 +39,9 @@ export const loginUser = (formData) => async (dispatch) => {
       body: JSON.stringify(formData), // formData contains email and password only
     });
 
-    console.log('Response status:', response.status); // Log the response status
 
     if (response.ok) {
       const responseText = await response.text(); // Get the response text
-      console.log('Response text:', responseText); // Log the response text
 
       const userDataResponse = JSON.parse(responseText); // Parse the response text
       const userData = userDataResponse.data;
@@ -54,7 +51,6 @@ export const loginUser = (formData) => async (dispatch) => {
       await AsyncStorage.setItem('client', response.headers.get('client'));
       await AsyncStorage.setItem('uid', response.headers.get('uid'));
 
-      console.log('User data:', userData); // Log the user data
 
       dispatch({
         type: SET_USER,
@@ -64,7 +60,6 @@ export const loginUser = (formData) => async (dispatch) => {
       return true;
     } else {
       const errorData = await response.json();
-      console.log('Error data:', errorData); // Log the error data
       throw new Error(errorData.errors);
     }
   } catch (error) {

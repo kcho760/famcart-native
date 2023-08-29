@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
+import { createNewItem } from '../store/item';
+import { addListItem } from '../store/listItem';
 
-function AddItem({ onClose, onSubmit, listId }) {
+function AddItem({ onClose, listId }) {
   const [itemName, setItemName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [unit, setUnit] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    // Fetch current user from AsyncStorage
     const fetchCurrentUser = async () => {
       const userString = await AsyncStorage.getItem('user');
       const user = userString ? JSON.parse(userString) : null;
@@ -19,15 +22,27 @@ function AddItem({ onClose, onSubmit, listId }) {
     fetchCurrentUser();
   }, []);
 
-  const handleAddItem = () => {
+  const handleAddItem = async () => {
     const newItem = {
-      item_name: itemName,
-      quantity,
+      name: itemName,
       unit,
-      user_id: currentUser ? currentUser.id : null,  // Add user info here
+      user_id: currentUser ? currentUser.id : null,
     };
 
-    onSubmit(listId, newItem);
+    // Step 1: Dispatch the Redux action to create a new Item
+    const createdItem = await dispatch(createNewItem(newItem));
+
+    // Step 2: Link the new Item to the List by creating a new ListItem
+    if (createdItem) {
+      const newListItem = {
+        item_id: createdItem.id,
+        quantity,
+        list_id: listId,
+        checked: false,
+      };
+      await dispatch(addListItem(newListItem));
+    }
+
     onClose();
   };
 

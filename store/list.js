@@ -3,7 +3,6 @@ const SET_LISTS = 'lists/SET_LISTS';
 const FETCH_LIST = 'lists/FETCH_LIST';
 const UPDATE_LIST_ITEM_CHECKED_STATUS = 'lists/UPDATE_LIST_ITEM_CHECKED_STATUS';
 const CREATE_LIST = 'lists/CREATE_LIST';
-const ADD_LIST_ITEM = 'lists/ADD_LIST_ITEM';
 
 // Thunks
 export const fetchLists = () => async dispatch => {
@@ -32,36 +31,6 @@ export const fetchList = (listId) => async (dispatch) => {
     console.error('Error fetching list:', error);
   }
 };
-
-export const addListItem = (listId, newItem) => async (dispatch) => {
-  try {
-    // Wrap newItem under a list_item key to match backend requirements
-    const payload = {
-      list_item: newItem
-    };
-
-    const response = await fetch(`https://famcart-webservice-dgpp.onrender.com/lists/${listId}/list_items`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),  // Now using payload instead of newItem
-    });
-
-    if (response.ok) {
-      const addedItem = await response.json();
-      dispatch({
-        type: ADD_LIST_ITEM,
-        listId,
-        addedItem,
-      });
-    } else {
-      console.error('Failed to add new item');
-    }
-  } catch (error) {
-    console.error('Error adding new item:', error);
-  }
-};
-
-
 
 export const createList = (listName, userId) => async (dispatch) => {
   try {
@@ -133,15 +102,6 @@ const listsReducer = (state = initialState, action) => {
       return {
         ...state,
         all: action.lists,
-      };
-
-    case ADD_LIST_ITEM:
-      return {
-        ...state,
-        currentList: {
-          ...state.currentList,
-          list_items: [...state.currentList.list_items, action.addedItem],
-        },
       };
 
     case UPDATE_LIST_ITEM_CHECKED_STATUS:

@@ -1,7 +1,7 @@
 things to complete:
-functionality for add item button
+<!-- functionality for add item button
     -quantity
-    -unit
+    -unit -->
 
 delete item switch?
     click button to create select multiple items to delete

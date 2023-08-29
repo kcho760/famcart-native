@@ -9,34 +9,34 @@ function LoginScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
-  const handleLogin = async () => {
-    console.log('handleLogin button pressed!');
+  const handleLogin = async (customEmail, customPassword) => {
     setIsLoading(true);
-
+  
+    // Use customEmail and customPassword if provided; otherwise use state values.
+    const emailToUse = customEmail || email;
+    const passwordToUse = customPassword || password;
+  
     try {
       const formData = {
-        email,
-        password,
+        email: emailToUse,
+        password: passwordToUse,
       };
-      console.log(formData);
-
+  
       const success = await dispatch(loginUser(formData));
       if (success) {
         navigation.navigate('Home');
       }
     } catch (error) {
       Alert.alert('Login Failed', error.message);
-      console.log(error.message);
     } finally {
       setIsLoading(false);
     }
   };
-
-  const handleDemoLogin = async () => {
-    setEmail("test1@example.com");
-    setPassword("password123");
-    handleLogin();
+  
+  const handleDemoLogin = () => {
+    handleLogin("test1@example.com", "password123");
   };
+  
 
   return (
     <View style={styles.container}>
