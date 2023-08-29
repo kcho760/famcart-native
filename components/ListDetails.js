@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, Modal, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Checkbox } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import { updateListItemCheckedStatus, fetchList } from '../store/list';
 import AddItem from './AddItem';
 import { deleteItems } from '../store/item';
@@ -13,6 +14,8 @@ function formatDate(dateString) {
 
 function ListDetails() {
   const currentList = useSelector(state => state.lists.currentList);
+  console.log('currentList', currentList);
+  
   const dispatch = useDispatch();
   const [showAddItemModal, setShowAddItemModal] = useState(false);
   const [deleteMode, setDeleteMode] = useState(false);
@@ -55,6 +58,11 @@ function ListDetails() {
     setItemsToDelete([]);
     setDeleteMode(false);
   };
+
+  useEffect(() => {
+    // Fetch data here
+  }, []); // Empty dependency array means this effect runs only once after the initial render
+  
   
   
 
@@ -136,20 +144,35 @@ function ListDetails() {
                 status={listItem.checked ? 'checked' : 'unchecked'}
                 onPress={() => handleCheckboxChange(currentList.id, listItem.id, !listItem.checked)}
               />
-              <Text>{listItem.item.name}</Text>
+              {listItem.item && listItem.item.name ? (
+                <Text>{listItem.item.name}</Text>
+              ) : (
+                <Text>No Item Name</Text>
+              )}
             </View>
+
             <View style={{ flex: 1, minWidth: 50, alignItems: 'center' }}>
               <Text>{listItem.quantity}</Text>
             </View>
             <View style={{ flex: 1, minWidth: 50, alignItems: 'center' }}>
-              <Text>{listItem.item.unit}</Text>
+              {listItem.item && listItem.item.unit ? (
+                <Text>{listItem.item.unit}</Text>
+              ) : (
+                <Text>No Unit</Text>
+              )}
             </View>
+
             <View style={{ flex: 2, minWidth: 100, alignItems: 'center' }}>
               <Text>{formatDate(listItem.created_at)}</Text>
             </View>
             <View style={{ flex: 2, minWidth: 100, alignItems: 'center' }}>
-              <Text>{listItem.item.added_by_name}</Text>
+              {listItem.item && listItem.item.added_by_name ? (
+                <Text>{listItem.item.added_by_name}</Text>
+              ) : (
+                <Text>No Added By Name</Text>
+              )}
             </View>
+
           </View>
         )}
       />

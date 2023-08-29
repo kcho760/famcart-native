@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import  {logoutUser} from '../store/auth';
@@ -41,8 +41,8 @@ function HomeScreen() {
   return (
     <View style={{ flex: 1 }}>
       <View style={{ alignItems: 'flex-end' }}>
-        <TouchableOpacity onPress={handleLogout}>
-          <Text>Logout</Text>
+        <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
+          <Text style={styles.logoutText}>Logout</Text>
         </TouchableOpacity>
       </View>
       <View style={{ flexDirection: 'row', height: 50 }}>
@@ -85,5 +85,19 @@ function HomeScreen() {
   );  
 }
   
+
+const styles = StyleSheet.create({
+  logoutButton: {
+    padding: 10,
+    backgroundColor: 'purple',
+    borderRadius: 5,
+    margin: 10,
+  },
+  logoutText: {
+    color: 'white',
+    fontSize: 16,
+  },
+});
+
 
 export default HomeScreen;

@@ -1,9 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
 
 function SplashScreen() {
   const navigation = useNavigation();
+
+  useEffect(() => {
+    // Check if user credentials are stored
+    const checkStoredCredentials = async () => {
+      try {
+        const userData = await AsyncStorage.getItem('user');
+        if (userData) {
+          // User credentials are stored, log in the user
+          const parsedUserData = JSON.parse(userData);
+          // Dispatch your login action here to set user data in Redux store
+          // Example: dispatch(setUser(parsedUserData));
+          // After dispatching the login action, navigate to the Home screen
+          navigation.navigate('Home');
+        }
+      } catch (error) {
+        console.error('Error checking stored credentials:', error);
+      }
+    };
+
+    checkStoredCredentials();
+  }, []); // Run this effect only once on component mount
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
