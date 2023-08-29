@@ -15,3 +15,4 @@ settings modal for list:
 List item info styling
 
 Stay logged in using saved information in async storage
+Async storage doesn't work. Look into token authentication using devise 
