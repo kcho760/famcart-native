@@ -3,6 +3,8 @@ const SET_LISTS = 'lists/SET_LISTS';
 const FETCH_LIST = 'lists/FETCH_LIST';
 const UPDATE_LIST_ITEM_CHECKED_STATUS = 'lists/UPDATE_LIST_ITEM_CHECKED_STATUS';
 const CREATE_LIST = 'lists/CREATE_LIST';
+const DELETE_LIST = 'lists/DELETE_LIST';
+
 
 // Thunks
 export const fetchLists = () => async dispatch => {
@@ -80,6 +82,26 @@ export const updateListItemCheckedStatus = (listId, itemId, checked) => async (d
   }
 };
 
+export const deleteList = (listId) => async (dispatch) => {
+  try {
+    const response = await fetch(`https://famcart-webservice-dgpp.onrender.com/lists/${listId}`, {
+      method: 'DELETE',
+    });
+
+    if (response.ok) {
+      dispatch({
+        type: DELETE_LIST,
+        listId,
+      });
+    } else {
+      console.error('Failed to delete the list');
+    }
+  } catch (error) {
+    console.error('Error deleting list:', error);
+  }
+};
+
+
 
 // Initial state
 const initialState = {
@@ -117,11 +139,16 @@ const listsReducer = (state = initialState, action) => {
           }),
         },
       };
-      case CREATE_LIST:
-        return {
-          ...state,
-          all: [...state.all, action.newList], // Add the new list to the list of all lists
-        };
+    case CREATE_LIST:
+      return {
+        ...state,
+        all: [...state.all, action.newList], // Add the new list to the list of all lists
+      };
+    case DELETE_LIST:
+      return {
+        ...state,
+        all: state.all.filter(list => list.id !== action.listId), // Remove the deleted list
+      };
     default:
       return state;
   }

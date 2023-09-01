@@ -22,8 +22,10 @@ function ListDetails() {
   const [itemsToDelete, setItemsToDelete] = useState([]);
 
   const handleCheckboxChange = (listId, itemId, checked) => {
-    dispatch(updateListItemCheckedStatus(listId, itemId, checked));
+    dispatch(updateListItemCheckedStatus(listId, itemId, checked))
+      .then(() => dispatch(fetchList(currentList.id)));  // Fetch the updated list from the server
   };
+  
 
   const handleAddListItem = () => {
     setShowAddItemModal(true);
@@ -93,10 +95,10 @@ function ListDetails() {
 
       <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 10 }}>
         <TouchableOpacity onPress={handleAddListItem} style={styles.addItemButton}>
-          <Text style={{ color: 'white' }}>Add Item</Text>
+          <Text style={{ color: 'white' }}>Add Items</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={deleteMode ? handleDone : toggleDeleteMode} style={styles.deleteButton}>
-          <Text style={{ color: 'white' }}>{deleteMode ? 'Done' : 'Delete'}</Text>
+          <Text style={{ color: 'white' }}>{deleteMode ? 'Done' : 'Delete Items'}</Text>
         </TouchableOpacity>
 
 
@@ -147,7 +149,7 @@ function ListDetails() {
               {listItem.item && listItem.item.name ? (
                 <Text>{listItem.item.name}</Text>
               ) : (
-                <Text>No Item Name</Text>
+                <Text>Loading</Text>
               )}
             </View>
 
@@ -158,7 +160,7 @@ function ListDetails() {
               {listItem.item && listItem.item.unit ? (
                 <Text>{listItem.item.unit}</Text>
               ) : (
-                <Text>No Unit</Text>
+                <Text>Loading</Text>
               )}
             </View>
 
@@ -169,7 +171,7 @@ function ListDetails() {
               {listItem.item && listItem.item.added_by_name ? (
                 <Text>{listItem.item.added_by_name}</Text>
               ) : (
-                <Text>No Added By Name</Text>
+                <Text>Loading</Text>
               )}
             </View>
 

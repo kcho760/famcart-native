@@ -41,6 +41,19 @@ function HomeScreen() {
     setShowNewListModal(true);
   };
 
+  const handleListDeletion = async () => {
+    try {
+      // Refresh lists after deletion
+      await dispatch(fetchLists());
+  
+      // Reset the selectedList state to null
+      setSelectedList(null);
+  
+    } catch (error) {
+      console.error('An error occurred while refreshing lists:', error);
+    }
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -93,7 +106,11 @@ function HomeScreen() {
   
       {/* Render ListSettings when showListSettings is true */}
       {showListSettings && selectedList && (
-        <ListSettings list={selectedList} onClose={() => setShowListSettings(false)} />
+        <ListSettings 
+          list={selectedList} 
+          onClose={() => setShowListSettings(false)} 
+          onDelete={handleListDeletion}  // Pass the function as a prop
+        />
       )}
     </View>
   );

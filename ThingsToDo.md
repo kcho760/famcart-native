@@ -8,7 +8,7 @@ things to complete:
         add functionality for deleting items -->
 
 settings modal for list:
-    contains delete list
+    <!-- contains delete list -->
     contains info about list
 
 <!-- Logout button styling -->
