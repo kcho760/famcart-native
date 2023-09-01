@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "famcartcom.famcart.app"
     },
     "android": {
       "adaptiveIcon": {
