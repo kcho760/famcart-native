@@ -1,24 +1,21 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 function ListSettingsButton({ onPress }) {
   return (
     <TouchableOpacity onPress={onPress} style={styles.button}>
-      <Text style={styles.buttonText}>Settings</Text>
+      <Icon name="cog" size={30} color="rgb(246, 245, 228)" />
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: 'green',
+    backgroundColor: 'rgb(25, 13, 43)',
     padding: 10,
     borderRadius: 5,
     marginRight: 10,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
   },
 });
 

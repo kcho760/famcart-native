@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { signUpUser } from '../store/auth';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { signUpUser } from '../store/auth';
+import { LinearGradient } from 'expo-linear-gradient';
+
 
 function SignupScreen() {
   const dispatch = useDispatch();
@@ -16,12 +18,12 @@ function SignupScreen() {
       const user = {
         email: email,
         password: password,
-        password_confirmation: passwordConfirmation, // Adjust this key based on your backend expectation
+        password_confirmation: passwordConfirmation,
       };
-      
+
       const newUser = await dispatch(signUpUser(user));
       if (newUser) {
-        navigation.navigate('Home')
+        navigation.navigate('Home');
       }
     } catch (error) {
       console.error('Error signing up:', error);
@@ -29,8 +31,8 @@ function SignupScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text>Email:</Text>
+    <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.container}>
+      <Text style={styles.label}>Email:</Text>
       <TextInput
         style={styles.input}
         onChangeText={setEmail}
@@ -39,7 +41,7 @@ function SignupScreen() {
         autoCompleteType="email"
         placeholder="Enter your email"
       />
-      <Text>Password:</Text>
+      <Text style={styles.label}>Password:</Text>
       <TextInput
         style={styles.input}
         onChangeText={setPassword}
@@ -47,7 +49,7 @@ function SignupScreen() {
         secureTextEntry={true}
         placeholder="Enter your password"
       />
-      <Text>Confirm Password:</Text>
+      <Text style={styles.label}>Confirm Password:</Text>
       <TextInput
         style={styles.input}
         onChangeText={setPasswordConfirmation}
@@ -56,19 +58,29 @@ function SignupScreen() {
         placeholder="Confirm your password"
       />
       <Button title="Sign Up" onPress={handleSignup} />
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 8,
+    color: 'white',
   },
   input: {
+    width: 250,
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 10,
+    marginBottom: 15,
+    paddingHorizontal: 8,
+    backgroundColor: 'white',
   },
 });
 

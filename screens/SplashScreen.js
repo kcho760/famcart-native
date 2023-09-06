@@ -1,38 +1,18 @@
-import React, { useEffect } from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { View, Text, Button, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
+import { LinearGradient } from 'expo-linear-gradient';
 
 function SplashScreen() {
   const navigation = useNavigation();
 
-  // useEffect(() => {
-  //   // Check if user credentials are stored
-  //   const checkStoredCredentials = async () => {
-  //     try {
-  //       const userData = await AsyncStorage.getItem('user');
-  //       if (userData) {
-  //         // User credentials are stored, log in the user
-  //         const parsedUserData = JSON.parse(userData);
-  //         // Dispatch your login action here to set user data in Redux store
-  //         // Example: dispatch(setUser(parsedUserData));
-  //         // After dispatching the login action, navigate to the Home screen
-  //         navigation.navigate('Home');
-  //       }
-  //     } catch (error) {
-  //       console.error('Error checking stored credentials:', error);
-  //     }
-  //   };
-
-  //   checkStoredCredentials();
-  // }, []); // Run this effect only once on component mount
-
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>
+    <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.container}>
+      <Image source={require('../assets/logo1.png')} style={styles.logo} />
+      <Text style={styles.welcomeText}>
         Welcome to the Cho Family Shopping App
       </Text>
-      <Text>
+      <Text style={styles.instructionText}>
         Olesya...Click the big green button!!!
       </Text>
       <View style={styles.buttonContainer}>
@@ -49,11 +29,32 @@ function SplashScreen() {
           <Text style={styles.greenButtonText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logo: {
+    width: 500,
+    height: 500,
+    marginBottom: 20,
+  },
+  welcomeText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: 'white',
+  },
+  instructionText: {
+    fontSize: 18,
+    marginBottom: 40,
+    color: 'white',
+  },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -62,17 +63,16 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     margin: 5,
-    fontSize: 18, // Adjust font size as needed
   },
   greenButton: {
     backgroundColor: 'green',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 10, // Adjust padding as needed
+    padding: 10,
   },
   greenButtonText: {
-    color: 'white', // Text color
-    fontSize: 18, // Adjust font size as needed
+    color: 'white',
+    fontSize: 18,
   },
 });
 

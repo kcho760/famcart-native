@@ -12,7 +12,10 @@ settings modal for list:
     contains info about list
 
 <!-- Logout button styling -->
-List item info styling
+<!-- List item info styling -->
+
+Adjust signup method to include name
+    -adjust auth store to include name
 
 Stay logged in using saved information in async storage
 Async storage doesn't work. Look into token authentication using devise 

@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { updateListItemCheckedStatus, fetchList } from '../store/list';
 import AddItem from './AddItem';
 import { deleteItems } from '../store/item';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 function formatDate(dateString) {
   const options = { month: 'short', day: 'numeric' };
@@ -65,9 +66,6 @@ function ListDetails() {
     // Fetch data here
   }, []); // Empty dependency array means this effect runs only once after the initial render
   
-  
-  
-
   if (!currentList) {
     return null;
   }
@@ -98,33 +96,41 @@ function ListDetails() {
           <Text style={{ color: 'white' }}>Add Items</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={deleteMode ? handleDone : toggleDeleteMode} style={styles.deleteButton}>
-          <Text style={{ color: 'white' }}>{deleteMode ? 'Done' : 'Delete Items'}</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', width: 90 }}> 
+            {deleteMode ? (
+              <View style={{ alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+                <Icon name="trash" size={20} color="white" />
+              </View>
+            ) : (
+              <View style={{ alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+                <Text style={{ color: 'white' }}>Delete Items</Text>
+              </View>
+            )}
+          </View>
         </TouchableOpacity>
-
-
       </View>
 
-      <View style={{ flexDirection: 'row', padding: 5, backgroundColor: '#f0f0f0' }}>
+      <View style={{ flexDirection: 'row', padding: 5, backgroundColor: '#333' }}>
         {/* Column Headers */}
         {deleteMode && (
           <View style={{ flex: 1, minWidth: 40, minHeight: 40, alignItems: 'center' }}>
-            <Text style={{ fontWeight: 'bold' }}>Delete</Text>
+            <Text style={{ fontWeight: 'bold', color: 'white' }}>Delete</Text>
           </View>
         )}
         <View style={{ flex: 3, minWidth: 100, alignItems: 'center' }}>
-          <Text style={{ fontWeight: 'bold' }}>Item</Text>
+          <Text style={{ fontWeight: 'bold', color: 'white' }}>Item</Text>
         </View>
         <View style={{ flex: 1, minWidth: 50, alignItems: 'center' }}>
-          <Text style={{ fontWeight: 'bold' }}>Quantity</Text>
+          <Text style={{ fontWeight: 'bold', color: 'white' }}>Quantity</Text>
         </View>
         <View style={{ flex: 1, minWidth: 50, alignItems: 'center' }}>
-          <Text style={{ fontWeight: 'bold' }}>Unit</Text>
+          <Text style={{ fontWeight: 'bold', color: 'white' }}>Unit</Text>
         </View>
         <View style={{ flex: 2, minWidth: 100, alignItems: 'center' }}>
-          <Text style={{ fontWeight: 'bold' }}>Date</Text>
+          <Text style={{ fontWeight: 'bold', color: 'white' }}>Date</Text>
         </View>
         <View style={{ flex: 2, minWidth: 100, alignItems: 'center' }}>
-          <Text style={{ fontWeight: 'bold' }}>Added By</Text>
+          <Text style={{ fontWeight: 'bold', color: 'white' }}>Added By</Text>
         </View>
       </View>
 
@@ -174,7 +180,6 @@ function ListDetails() {
                 <Text>Loading</Text>
               )}
             </View>
-
           </View>
         )}
       />
@@ -198,7 +203,7 @@ const styles = StyleSheet.create({
   deleteButton: {
     padding: 10,
     borderWidth: 1,
-    backgroundColor: 'red', // Set background color to red
+    backgroundColor: 'rgb(65, 143, 195)',
     borderRadius: 5, // Rounded corners, but not a circle
     alignItems: 'center',
     justifyContent: 'center',
@@ -211,8 +216,9 @@ const styles = StyleSheet.create({
   
   addItemButton: {
     padding: 10,
-    backgroundColor: 'blue',
+    backgroundColor: 'rgb(71, 84, 204)',
     borderRadius: 5,
+    borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },

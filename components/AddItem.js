@@ -46,6 +46,31 @@ function AddItem({ onClose, listId }) {
     onClose();
   };
 
+  const addTestItem = async () => {
+    const newItem = {
+      name: 'Test Item',
+      unit: 'pcs',
+      user_id: currentUser ? currentUser.id : null,
+    };
+  
+    // Step 1: Dispatch the Redux action to create a new Item
+    const createdItem = await dispatch(createNewItem(newItem));
+  
+    // Step 2: Link the new Item to the List by creating a new ListItem
+    if (createdItem) {
+      const newListItem = {
+        item_id: createdItem.id,
+        quantity: '1',
+        list_id: listId,
+        checked: false,
+      };
+      await dispatch(addListItem(newListItem));
+    }
+  
+    onClose();
+  };
+  
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Item Name:</Text>
@@ -74,6 +99,9 @@ function AddItem({ onClose, listId }) {
       />
 
       <Button title="Add Item" onPress={handleAddItem} />
+
+      {/* Test Item Add Button */}
+      <Button title="Add Test Item" onPress={addTestItem} />
     </View>
   );
 }
