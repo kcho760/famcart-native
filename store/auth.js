@@ -16,10 +16,12 @@ export const signUpUser = (user) => async (dispatch) => {
 
     if (response.ok) {
       const newUser = await response.json();
+      console.log("New User Data:", newUser);
+      
       dispatch({
         type: SIGN_UP_USER,
-        user: newUser,
-      });
+        payload: newUser,
+      });      
       return newUser;
     } else {
       const errorData = await response.json();
@@ -32,42 +34,43 @@ export const signUpUser = (user) => async (dispatch) => {
 
 export const loginUser = (formData) => async (dispatch) => {
   try {
-
     const response = await fetch('https://famcart-webservice-dgpp.onrender.com/auth/sign_in', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData), // formData contains email and password only
+      body: JSON.stringify(formData),
     });
 
-
     if (response.ok) {
-      const responseText = await response.text(); // Get the response text
-
-      const userDataResponse = JSON.parse(responseText); // Parse the response text
+      const headers = response.headers;
+      const responseText = await response.text();
+      const userDataResponse = JSON.parse(responseText);
       const userData = userDataResponse.data;
-
+      console.log("User data:", userData);
+      
+      // Store tokens and user info in AsyncStorage
+      await AsyncStorage.setItem('access-token', headers.get('access-token'));
+      await AsyncStorage.setItem('client', headers.get('client'));
+      await AsyncStorage.setItem('uid', headers.get('uid'));
       await AsyncStorage.setItem('user', JSON.stringify(userData));
-      await AsyncStorage.setItem('access-token', response.headers.get('access-token'));
-      await AsyncStorage.setItem('client', response.headers.get('client'));
-      await AsyncStorage.setItem('uid', response.headers.get('uid'));
 
-
+      console.log("Dispatching SET_USER with payload:", userData);
       dispatch({
         type: SET_USER,
         payload: userData,
       });
+      console.log("Stored User:", await AsyncStorage.getItem('user'));
 
+      
       return true;
     } else {
       const errorData = await response.json();
       throw new Error(errorData.errors);
     }
   } catch (error) {
-    console.error('An error occurred:', error); // Log the error
+    console.error('An error occurred:', error.message);
     throw error;
   }
 };
-
 
 export const logoutUser = () => async (dispatch) => {
   const access_token = await AsyncStorage.getItem('access-token');
@@ -86,9 +89,6 @@ export const logoutUser = () => async (dispatch) => {
 
     if (response.ok) {
       await AsyncStorage.removeItem('user');
-      await AsyncStorage.removeItem('access-token');
-      await AsyncStorage.removeItem('client');
-      await AsyncStorage.removeItem('uid');
       dispatch({
         type: LOGOUT_USER,
       });
@@ -132,6 +132,12 @@ const initialState = {
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case SIGN_UP_USER:
+      console.log("Setting new user with payload:", action.payload);
+      return {
+        ...state,
+        user: action.payload,
+      };
+    
     case SET_USER:
       return {
         ...state,

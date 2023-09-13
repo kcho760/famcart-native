@@ -63,7 +63,7 @@ function LoginScreen({ navigation }) {
           <ActivityIndicator />
         ) : (
           <>
-            <Button title="Login" onPress={handleLogin} />
+            <Button title="Login" onPress={() => handleLogin(null, null)} />
             <Button title="Demo Login" onPress={handleDemoLogin} />
           </>
         )}

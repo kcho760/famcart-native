@@ -16,6 +16,7 @@ function AddItem({ onClose, listId }) {
     const fetchCurrentUser = async () => {
       const userString = await AsyncStorage.getItem('user');
       const user = userString ? JSON.parse(userString) : null;
+      console.log(currentUser);
       setCurrentUser(user);
     };
 
@@ -27,11 +28,13 @@ function AddItem({ onClose, listId }) {
       name: itemName,
       unit,
       user_id: currentUser ? currentUser.id : null,
+      added_by_name: currentUser ? currentUser.name : null  // Manually set added_by_name if possible
     };
-
+    
+  
     // Step 1: Dispatch the Redux action to create a new Item
     const createdItem = await dispatch(createNewItem(newItem));
-
+  
     // Step 2: Link the new Item to the List by creating a new ListItem
     if (createdItem) {
       const newListItem = {
@@ -39,10 +42,10 @@ function AddItem({ onClose, listId }) {
         quantity,
         list_id: listId,
         checked: false,
+        added_by_name: currentUser ? currentUser.name : null // Add this line for the optimistic update
       };
       await dispatch(addListItem(newListItem));
     }
-
     onClose();
   };
 

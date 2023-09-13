@@ -13,6 +13,7 @@ function HomeScreen() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const lists = useSelector((state) => state.lists.all) || [];
+  const currentUser = useSelector((state) => state.auth.user);
   const [selectedList, setSelectedList] = useState(null);
   const [showNewListModal, setShowNewListModal] = useState(false);
   const [showListSettings, setShowListSettings] = useState(false);
@@ -52,6 +53,12 @@ function HomeScreen() {
 
   return (
     <View style={styles.mainContainer}>
+      {/* Debugging Box */}
+      <View style={styles.debugBox}>
+        <Text>Debugging Box:</Text>
+        <Text>ID: {currentUser ? currentUser.id : 'null'}</Text>
+        <Text>Name: {currentUser ? currentUser.name : 'null'}</Text>
+      </View>
       <View style={styles.outerContainer}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <ScrollView horizontal style={{ flex: 1 }}>
@@ -120,6 +127,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgb(23, 22, 7)',
     padding: 10,
+  },
+  debugBox: {
+    backgroundColor: '#ffffff',
+    padding: 10,
+    margin: 5,
+    borderRadius: 5,
+    borderColor: 'black',
+    borderWidth: 1,
   },
   outerContainer: {
     flex: 1,

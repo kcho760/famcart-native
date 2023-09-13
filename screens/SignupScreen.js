@@ -5,9 +5,9 @@ import { useDispatch } from 'react-redux';
 import { signUpUser } from '../store/auth';
 import { LinearGradient } from 'expo-linear-gradient';
 
-
 function SignupScreen() {
   const dispatch = useDispatch();
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -16,6 +16,7 @@ function SignupScreen() {
   const handleSignup = async () => {
     try {
       const user = {
+        name: name,
         email: email,
         password: password,
         password_confirmation: passwordConfirmation,
@@ -24,7 +25,7 @@ function SignupScreen() {
       const newUser = await dispatch(signUpUser(user));
       if (newUser) {
         navigation.navigate('Home');
-      }
+      }`x`
     } catch (error) {
       console.error('Error signing up:', error);
     }
@@ -32,6 +33,13 @@ function SignupScreen() {
 
   return (
     <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.container}>
+      <Text style={styles.label}>Name:</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={setName}
+        value={name}
+        placeholder="Enter your name"
+      />
       <Text style={styles.label}>Email:</Text>
       <TextInput
         style={styles.input}

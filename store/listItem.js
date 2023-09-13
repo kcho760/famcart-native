@@ -1,7 +1,6 @@
 export const ADD_LIST_ITEM = 'ADD_LIST_ITEM';
 
 export const addListItem = (listItem) => {
-  console.log('sending list_id:' ,listItem.list_id)
   return async (dispatch) => {
     const response = await fetch('https://famcart-webservice-dgpp.onrender.com/list_items', {
       method: 'POST',

@@ -1,10 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Button, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+async function checkForStoredUser(navigation) {
+  try {
+    const userString = await AsyncStorage.getItem('user');
+    if (userString) {
+      const user = JSON.parse(userString);
+      if (user && typeof user === 'object') {
+        // Navigate to the main screen if user data is present
+        navigation.navigate('Home');
+      }
+    }
+  } catch (e) {
+    console.error('Failed to fetch user from storage', e);
+  }
+}
 
 function SplashScreen() {
   const navigation = useNavigation();
+
+  useEffect(() => {
+    checkForStoredUser(navigation);
+  }, []);
 
   return (
     <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.container}>

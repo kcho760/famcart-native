@@ -6,9 +6,9 @@ things to complete:
 <!-- delete item switch?
     click button to create select multiple items to delete
         add functionality for deleting items -->
-
+<!-- 
 settings modal for list:
-    <!-- contains delete list -->
+    contains delete list -->
     contains info about list
 
 <!-- Logout button styling -->
@@ -16,6 +16,6 @@ settings modal for list:
 
 Adjust signup method to include name
     -adjust auth store to include name
+    -fix registration controller add-on
 
-Stay logged in using saved information in async storage
-Async storage doesn't work. Look into token authentication using devise 
+<!-- Stay logged in using saved information in async storage -->

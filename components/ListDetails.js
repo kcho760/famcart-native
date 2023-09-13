@@ -15,7 +15,6 @@ function formatDate(dateString) {
 
 function ListDetails() {
   const currentList = useSelector(state => state.lists.currentList);
-  console.log('currentList', currentList);
   
   const dispatch = useDispatch();
   const [showAddItemModal, setShowAddItemModal] = useState(false);
@@ -55,7 +54,6 @@ function ListDetails() {
   };
 
   const handleDone = () => {
-    console.log('Handle Done Triggered');
     dispatch(deleteItems(itemsToDelete))
       .then(() => dispatch(fetchList(currentList.id))); // Refetch the list data
     setItemsToDelete([]);
