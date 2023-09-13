@@ -14,8 +14,8 @@ settings modal for list:
 <!-- Logout button styling -->
 <!-- List item info styling -->
 
-Adjust signup method to include name
+<!-- Adjust signup method to include name
     -adjust auth store to include name
-    -fix registration controller add-on
+    -fix registration controller add-on -->
 
 <!-- Stay logged in using saved information in async storage -->
