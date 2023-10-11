@@ -40,7 +40,10 @@ export const deleteItems = (itemIds) => {
         type: DELETE_ITEMS,
         payload: itemIds,
       });
+    } else {
+      console.error("Error deleting items:", await response.text());
     }
+    
   };
 };
   

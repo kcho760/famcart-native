@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, ActivityIndicator, Alert, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../store/auth';
-import { LinearGradient } from 'expo-linear-gradient';
 
 function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -13,7 +12,6 @@ function LoginScreen({ navigation }) {
   const handleLogin = async (customEmail, customPassword) => {
     setIsLoading(true);
   
-    // Use customEmail and customPassword if provided; otherwise use state values.
     const emailToUse = customEmail || email;
     const passwordToUse = customPassword || password;
   
@@ -34,13 +32,12 @@ function LoginScreen({ navigation }) {
     }
   };
   
-  
   const handleDemoLogin = () => {
     handleLogin("test1@example.com", "password123");
   };
   
   return (
-    <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.contentContainer}>
         <Text style={styles.label}>Email:</Text>
         <TextInput
@@ -63,12 +60,16 @@ function LoginScreen({ navigation }) {
           <ActivityIndicator />
         ) : (
           <>
-            <Button title="Login" onPress={() => handleLogin(null, null)} />
-            <Button title="Demo Login" onPress={handleDemoLogin} />
+            <View style={styles.buttonMargin}>
+              <Button title="Login" onPress={() => handleLogin(null, null)} />
+            </View>
+            <View style={styles.buttonMargin}>
+              <Button title="Demo Login" onPress={handleDemoLogin} />
+            </View>
           </>
         )}
       </View>
-    </LinearGradient>
+    </View>
   );
 }
 
@@ -77,6 +78,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#4c669f'
   },
   contentContainer: {
     width: '80%',
@@ -87,6 +89,9 @@ const styles = StyleSheet.create({
   },
   label: {
     fontWeight: 'bold',
+    fontSize: 18,
+    color: '#333',
+    marginTop: 10
   },
   input: {
     width: '100%',
@@ -95,7 +100,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     paddingLeft: 8,
+    borderRadius: 5
   },
+  buttonMargin: {
+    marginTop: 10,
+  }
 });
 
 export default LoginScreen;

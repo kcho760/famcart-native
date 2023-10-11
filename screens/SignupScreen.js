@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { signUpUser } from '../store/auth';
-import { LinearGradient } from 'expo-linear-gradient';
+import { signUpUser, loginUser } from '../store/auth';
 
 function SignupScreen() {
   const dispatch = useDispatch();
@@ -16,23 +15,28 @@ function SignupScreen() {
   const handleSignup = async () => {
     try {
       const user = {
-        name: name,
-        email: email,
-        password: password,
+        name,
+        email,
+        password,
         password_confirmation: passwordConfirmation,
       };
 
       const newUser = await dispatch(signUpUser(user));
       if (newUser) {
+        const formData = {
+          email,
+          password,
+        };
+        await dispatch(loginUser(formData))
         navigation.navigate('Home');
-      }`x`
+      }
     } catch (error) {
       console.error('Error signing up:', error);
     }
   };
 
   return (
-    <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.container}>
+    <View style={styles.container}>
       <Text style={styles.label}>Name:</Text>
       <TextInput
         style={styles.input}
@@ -65,8 +69,10 @@ function SignupScreen() {
         secureTextEntry={true}
         placeholder="Confirm your password"
       />
-      <Button title="Sign Up" onPress={handleSignup} />
-    </LinearGradient>
+      <TouchableOpacity style={styles.button} onPress={handleSignup}>
+        <Text style={styles.buttonText}>Sign Up</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
@@ -75,10 +81,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#4c669f',
   },
   label: {
-    fontSize: 16,
-    marginBottom: 8,
+    fontSize: 18,
+    marginBottom: 10,
     color: 'white',
   },
   input: {
@@ -88,7 +95,21 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 15,
     paddingHorizontal: 8,
+    borderRadius: 5,
     backgroundColor: 'white',
+  },
+  button: {
+    marginTop: 15,
+    backgroundColor: '#007BFF',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 150,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 20,
   },
 });
 

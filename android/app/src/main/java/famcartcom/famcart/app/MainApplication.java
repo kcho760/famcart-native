@@ -12,7 +12,7 @@ import com.facebook.react.config.ReactFeatureFlags;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
-import com.BV.LinearGradient.LinearGradientPackage;
+// import com.BV.LinearGradient.LinearGradientPackage;
 
 // import com.facebook.flipper.ReactNativeFlipper;
 
@@ -35,7 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
       protected List<ReactPackage> getPackages() {
         @SuppressWarnings("UnnecessaryLocalVariable")
         List<ReactPackage> packages = new PackageList(this).getPackages();
-        packages.add(new LinearGradientPackage());
+        // packages.add(new LinearGradientPackage());
         // Packages that cannot be autolinked yet can be added manually here, for example:
         // packages.add(new MyReactNativePackage());
         return packages;

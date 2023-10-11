@@ -53,12 +53,12 @@ function HomeScreen() {
 
   return (
     <View style={styles.mainContainer}>
-      {/* Debugging Box */}
+      {/* Debugging Box
       <View style={styles.debugBox}>
         <Text>Debugging Box:</Text>
         <Text>ID: {currentUser ? currentUser.id : 'null'}</Text>
         <Text>Name: {currentUser ? currentUser.name : 'null'}</Text>
-      </View>
+      </View> */}
       <View style={styles.outerContainer}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <ScrollView horizontal style={{ flex: 1 }}>

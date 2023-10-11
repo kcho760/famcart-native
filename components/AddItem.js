@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
 import { createNewItem } from '../store/item';
@@ -10,13 +10,13 @@ function AddItem({ onClose, listId }) {
   const [quantity, setQuantity] = useState('');
   const [unit, setUnit] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
       const userString = await AsyncStorage.getItem('user');
       const user = userString ? JSON.parse(userString) : null;
-      console.log(currentUser);
       setCurrentUser(user);
     };
 
@@ -24,42 +24,45 @@ function AddItem({ onClose, listId }) {
   }, []);
 
   const handleAddItem = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+
     const newItem = {
       name: itemName,
       unit,
       user_id: currentUser ? currentUser.id : null,
       added_by_name: currentUser ? currentUser.name : null  // Manually set added_by_name if possible
     };
-    
-  
-    // Step 1: Dispatch the Redux action to create a new Item
+
     const createdItem = await dispatch(createNewItem(newItem));
-  
-    // Step 2: Link the new Item to the List by creating a new ListItem
+
     if (createdItem) {
       const newListItem = {
         item_id: createdItem.id,
         quantity,
         list_id: listId,
         checked: false,
-        added_by_name: currentUser ? currentUser.name : null // Add this line for the optimistic update
+        added_by_name: currentUser ? currentUser.name : null
       };
       await dispatch(addListItem(newListItem));
     }
+
+    setIsLoading(false);
     onClose();
   };
 
   const addTestItem = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+
     const newItem = {
       name: 'Test Item',
       unit: 'pcs',
       user_id: currentUser ? currentUser.id : null,
     };
-  
-    // Step 1: Dispatch the Redux action to create a new Item
+
     const createdItem = await dispatch(createNewItem(newItem));
-  
-    // Step 2: Link the new Item to the List by creating a new ListItem
+
     if (createdItem) {
       const newListItem = {
         item_id: createdItem.id,
@@ -69,10 +72,10 @@ function AddItem({ onClose, listId }) {
       };
       await dispatch(addListItem(newListItem));
     }
-  
+
+    setIsLoading(false);
     onClose();
   };
-  
 
   return (
     <View style={styles.container}>
@@ -101,10 +104,14 @@ function AddItem({ onClose, listId }) {
         placeholder="Enter unit"
       />
 
-      <Button title="Add Item" onPress={handleAddItem} />
-
-      {/* Test Item Add Button */}
-      <Button title="Add Test Item" onPress={addTestItem} />
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <>
+          <Button title="Add Item" onPress={handleAddItem} />
+          <Button title="Add Test Item" onPress={addTestItem} />
+        </>
+      )}
     </View>
   );
 }

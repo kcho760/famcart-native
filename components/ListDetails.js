@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList, Modal, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Checkbox } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
 import { updateListItemCheckedStatus, fetchList } from '../store/list';
 import AddItem from './AddItem';
 import { deleteItems } from '../store/item';
@@ -15,7 +14,6 @@ function formatDate(dateString) {
 
 function ListDetails() {
   const currentList = useSelector(state => state.lists.currentList);
-  
   const dispatch = useDispatch();
   const [showAddItemModal, setShowAddItemModal] = useState(false);
   const [deleteMode, setDeleteMode] = useState(false);
@@ -23,27 +21,25 @@ function ListDetails() {
 
   const handleCheckboxChange = (listId, itemId, checked) => {
     dispatch(updateListItemCheckedStatus(listId, itemId, checked))
-      .then(() => dispatch(fetchList(currentList.id)));  // Fetch the updated list from the server
+      .then(() => dispatch(fetchList(currentList.id)));
   };
-  
 
   const handleAddListItem = () => {
     setShowAddItemModal(true);
   };
 
   const fetchAndCloseModal = () => {
-    dispatch(fetchList(currentList.id))  // Fetch the updated list from the server
-    .then(() => setShowAddItemModal(false));  // Close the modal only after fetching is successful
+    dispatch(fetchList(currentList.id))
+      .then(() => setShowAddItemModal(false));
   };
 
   const toggleDeleteMode = () => {
     if (deleteMode) {
-      handleDone();  // Call the handleDone function to delete the items if already in deleteMode
+      handleDone();
     }
     setDeleteMode(!deleteMode);
     setItemsToDelete([]);
   };
-  
 
   const handleDeleteItem = (itemId) => {
     if (itemsToDelete.includes(itemId)) {
@@ -55,15 +51,15 @@ function ListDetails() {
 
   const handleDone = () => {
     dispatch(deleteItems(itemsToDelete))
-      .then(() => dispatch(fetchList(currentList.id))); // Refetch the list data
+      .then(() => dispatch(fetchList(currentList.id)));
     setItemsToDelete([]);
     setDeleteMode(false);
   };
 
   useEffect(() => {
     // Fetch data here
-  }, []); // Empty dependency array means this effect runs only once after the initial render
-  
+  }, []);
+
   if (!currentList) {
     return null;
   }
@@ -77,7 +73,7 @@ function ListDetails() {
       >
         <TouchableWithoutFeedback onPress={() => setShowAddItemModal(false)}>
           <View style={styles.modalBackground}>
-            <TouchableWithoutFeedback onPress={() => {}}>
+            <TouchableWithoutFeedback>
               <View style={styles.modalBox}>
                 <AddItem
                   onClose={() => fetchAndCloseModal()}
@@ -109,28 +105,25 @@ function ListDetails() {
       </View>
 
       <View style={{ flexDirection: 'row', padding: 5, backgroundColor: '#333' }}>
-        {/* Column Headers */}
-        {deleteMode && (
-          <View style={{ flex: 1, minWidth: 40, minHeight: 40, alignItems: 'center' }}>
-            <Text style={{ fontWeight: 'bold', color: 'white' }}>Delete</Text>
-          </View>
-        )}
-        <View style={{ flex: 3, minWidth: 100, alignItems: 'center' }}>
-          <Text style={{ fontWeight: 'bold', color: 'white' }}>Item</Text>
-        </View>
-        <View style={{ flex: 1, minWidth: 50, alignItems: 'center' }}>
-          <Text style={{ fontWeight: 'bold', color: 'white' }}>Quantity</Text>
-        </View>
-        <View style={{ flex: 1, minWidth: 50, alignItems: 'center' }}>
-          <Text style={{ fontWeight: 'bold', color: 'white' }}>Unit</Text>
-        </View>
-        <View style={{ flex: 2, minWidth: 100, alignItems: 'center' }}>
-          <Text style={{ fontWeight: 'bold', color: 'white' }}>Date</Text>
-        </View>
-        <View style={{ flex: 2, minWidth: 100, alignItems: 'center' }}>
-          <Text style={{ fontWeight: 'bold', color: 'white' }}>Added By</Text>
-        </View>
-      </View>
+  {deleteMode && (
+    <View style={{ flex: 1, alignItems: 'center' }}>
+      <Text style={{ fontWeight: 'bold', color: 'white' }}>Delete</Text>
+    </View>
+  )}
+  <View style={{ flex: 4, alignItems: 'center' }}>
+    <Text style={{ fontWeight: 'bold', color: 'white' }}>Item</Text>
+  </View>
+  <View style={{ flex: 1, alignItems: 'center' }}>
+    <Text style={{ fontWeight: 'bold', color: 'white' }}>#</Text>
+  </View>
+  <View style={{ flex: 2, alignItems: 'center' }}>
+    <Text style={{ fontWeight: 'bold', color: 'white' }}>Date</Text>
+  </View>
+  <View style={{ flex: 2, alignItems: 'center' }}>
+    <Text style={{ fontWeight: 'bold', color: 'white' }}>Added By</Text>
+  </View>
+</View>
+
 
       <FlatList
         data={currentList.list_items}
@@ -190,28 +183,23 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',  // grey background
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalBox: {
     width: 300,
     padding: 20,
-    backgroundColor: 'white',  // white box
+    backgroundColor: 'white',
     borderRadius: 10,
   },
   deleteButton: {
     padding: 10,
     borderWidth: 1,
     backgroundColor: 'rgb(65, 143, 195)',
-    borderRadius: 5, // Rounded corners, but not a circle
+    borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
+    marginLeft: 10
   },
-  deleteButtonText: {
-    color: 'white',  // Set text color to white
-    fontSize: 16,    // Adjust font size as needed
-    lineHeight: 16,  // Setting the lineHeight the same as fontSize often centers the text
-  },
-  
   addItemButton: {
     padding: 10,
     backgroundColor: 'rgb(71, 84, 204)',
@@ -220,7 +208,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  
   deleteListCheckmark: {
     padding: 10,
     borderWidth: 1,
@@ -230,7 +217,6 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
   },
-
   deleteListCheckmarkText: {
     fontSize: 24,
     lineHeight: 24,
