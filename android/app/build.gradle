@@ -1,5 +1,11 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
+project.ext.react = [
+    enableHermes: false,  // Change to 'true' if you use Hermes.
+    bundleInDebug: true,  // Ensure this is true for debug builds
+    bundleInRelease: true // Ensure this is true for release builds
+]
+
 
 def projectRoot = rootDir.getAbsoluteFile().getParentFile().getAbsolutePath()
 
