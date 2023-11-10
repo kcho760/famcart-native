@@ -9,7 +9,7 @@ const DELETE_LIST = 'lists/DELETE_LIST';
 // Thunks
 export const fetchLists = () => async dispatch => {
   try {
-    const response = await fetch('https://famcart-webservice-dgpp.onrender.com/lists');
+    const response = await fetch('https://famcart-webservice.onrender.com/lists');
     if (response.ok) {
       const lists = await response.json();
       dispatch({ type: SET_LISTS, lists });
@@ -21,7 +21,7 @@ export const fetchLists = () => async dispatch => {
 
 export const fetchList = (listId) => async (dispatch) => {
   try {
-    const response = await fetch(`https://famcart-webservice-dgpp.onrender.com/lists/${listId}`);
+    const response = await fetch(`https://famcart-webservice.onrender.com/lists/${listId}`);
     if (response.ok) {
       const listWithItems = await response.json();
       dispatch({
@@ -38,7 +38,7 @@ export const createList = (listName, userId) => async (dispatch) => {
   try {
     const listData = { list: { name: listName, user_id: userId } };
 
-    const response = await fetch('https://famcart-webservice-dgpp.onrender.com/lists', {
+    const response = await fetch('https://famcart-webservice.onrender.com/lists', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(listData),
@@ -61,7 +61,7 @@ export const createList = (listName, userId) => async (dispatch) => {
 
 export const updateListItemCheckedStatus = (listId, itemId, checked) => async (dispatch) => {
   try {
-    const response = await fetch(`https://famcart-webservice-dgpp.onrender.com/lists/${listId}/list_items/${itemId}`, {
+    const response = await fetch(`https://famcart-webservice.onrender.com/lists/${listId}/list_items/${itemId}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ checked }),
@@ -84,7 +84,7 @@ export const updateListItemCheckedStatus = (listId, itemId, checked) => async (d
 
 export const deleteList = (listId) => async (dispatch) => {
   try {
-    const response = await fetch(`https://famcart-webservice-dgpp.onrender.com/lists/${listId}`, {
+    const response = await fetch(`https://famcart-webservice.onrender.com/lists/${listId}`, {
       method: 'DELETE',
     });
 

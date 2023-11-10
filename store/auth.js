@@ -8,7 +8,7 @@ const LOGOUT_USER = 'auth/LOGOUT_USER';
 // Thunks
 export const signUpUser = (user) => async (dispatch) => {
   try {
-    const response = await fetch('https://famcart-webservice-dgpp.onrender.com/auth/', {
+    const response = await fetch('https://famcart-webservice.onrender.com/auth/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user),
@@ -34,40 +34,48 @@ export const signUpUser = (user) => async (dispatch) => {
 
 export const loginUser = (formData) => async (dispatch) => {
   try {
-    const response = await fetch('https://famcart-webservice-dgpp.onrender.com/auth/sign_in', {
+    const response = await fetch('https://famcart-webservice.onrender.com/auth/sign_in', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
     });
 
+    // Get the full response text for debugging purposes
+    const responseText = await response.text(); 
+
+    // Attempt to parse the response text as JSON
+    let userDataResponse;
+    try {
+      userDataResponse = JSON.parse(responseText);
+    } catch (parseError) {
+      console.error('Failed to parse response as JSON', responseText);
+      throw new Error(`Failed to parse response as JSON: ${parseError.message}`);
+    }
+
     if (response.ok) {
       const headers = response.headers;
-      const responseText = await response.text();
-      const userDataResponse = JSON.parse(responseText);
       const userData = userDataResponse.data;
-      console.log("User data:", userData);
-      
+
       // Store tokens and user info in AsyncStorage
       await AsyncStorage.setItem('access-token', headers.get('access-token'));
       await AsyncStorage.setItem('client', headers.get('client'));
       await AsyncStorage.setItem('uid', headers.get('uid'));
       await AsyncStorage.setItem('user', JSON.stringify(userData));
 
-      console.log("Dispatching SET_USER with payload:", userData);
       dispatch({
         type: SET_USER,
         payload: userData,
       });
-      console.log("Stored User:", await AsyncStorage.getItem('user'));
 
-      
       return true;
     } else {
-      const errorData = await response.json();
-      throw new Error(errorData.errors);
+      // If response is not ok, handle it using the parsed error response
+      throw new Error(userDataResponse.errors.join(', ')); // Assuming errors is an array
     }
   } catch (error) {
-    console.error('An error occurred:', error.message);
+    // Log the error and rethrow it
+    console.error('Login error:', error);
+    Alert.alert('Login Error', error.toString());
     throw error;
   }
 };
@@ -78,7 +86,7 @@ export const logoutUser = () => async (dispatch) => {
   const uid = await AsyncStorage.getItem('uid');
 
   try {
-    const response = await fetch('https://famcart-webservice-dgpp.onrender.com/auth/sign_out', {
+    const response = await fetch('https://famcart-webservice.onrender.com/auth/sign_out', {
       method: 'DELETE',
       headers: {
         'access-token': access_token,

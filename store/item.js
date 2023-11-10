@@ -5,7 +5,7 @@ export const DELETE_ITEMS = 'DELETE_ITEMS';
 // action creators
 export const createNewItem = (item) => {
     return async (dispatch) => {
-      const response = await fetch('https://famcart-webservice-dgpp.onrender.com/items', {
+      const response = await fetch('https://famcart-webservice.onrender.com/items', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ export const createNewItem = (item) => {
 
 export const deleteItems = (itemIds) => {
   return async (dispatch) => {
-    const response = await fetch('https://famcart-webservice-dgpp.onrender.com/items/bulk_delete', {
+    const response = await fetch('https://famcart-webservice.onrender.com/items/bulk_delete', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
