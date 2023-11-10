@@ -40,16 +40,21 @@ export const loginUser = (formData) => async (dispatch) => {
       body: JSON.stringify(formData),
     });
 
-    // Get the full response text for debugging purposes
-    const responseText = await response.text(); 
+    // Log the response status and headers for debugging
+    console.log('Response Status:', response.status);
+    console.log('Response Headers:', JSON.stringify(response.headers.raw())); // Use .raw() to get all headers if available
+
+    const responseText = await response.text(); // Get the response text for potential JSON parsing
 
     // Attempt to parse the response text as JSON
     let userDataResponse;
     try {
       userDataResponse = JSON.parse(responseText);
     } catch (parseError) {
-      console.error('Failed to parse response as JSON', responseText);
-      throw new Error(`Failed to parse response as JSON: ${parseError.message}`);
+      console.error('Failed to parse response as JSON:', responseText);
+      console.error('Parse Error:', parseError);
+      // Include status in the error for better debugging
+      throw new Error(`Failed to parse response as JSON. Status: ${response.status}. Error: ${parseError.message}`);
     }
 
     if (response.ok) {
@@ -69,16 +74,17 @@ export const loginUser = (formData) => async (dispatch) => {
 
       return true;
     } else {
-      // If response is not ok, handle it using the parsed error response
-      throw new Error(userDataResponse.errors.join(', ')); // Assuming errors is an array
+      // Log the non-OK response for debugging
+      console.error('Non-OK HTTP Response:', response.status, responseText);
+      throw new Error(userDataResponse.errors ? userDataResponse.errors.join(', ') : 'Error during login.');
     }
   } catch (error) {
-    // Log the error and rethrow it
     console.error('Login error:', error);
     Alert.alert('Login Error', error.toString());
-    throw error;
+    throw error; // Re-throw the error for possible further handling
   }
 };
+
 
 export const logoutUser = () => async (dispatch) => {
   const access_token = await AsyncStorage.getItem('access-token');
