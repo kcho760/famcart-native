@@ -40,10 +40,6 @@ export const loginUser = (formData) => async (dispatch) => {
       body: JSON.stringify(formData),
     });
 
-    // Log the response status and headers for debugging
-    console.log('Response Status:', response.status);
-    console.log('Response Headers:', JSON.stringify(response.headers.raw())); // Use .raw() to get all headers if available
-
     const responseText = await response.text(); // Get the response text for potential JSON parsing
 
     // Attempt to parse the response text as JSON
@@ -79,10 +75,10 @@ export const loginUser = (formData) => async (dispatch) => {
       throw new Error(userDataResponse.errors ? userDataResponse.errors.join(', ') : 'Error during login.');
     }
   } catch (error) {
-    console.error('Login error:', error);
-    Alert.alert('Login Error', error.toString());
+    console.error('Login error:', error); // This will log the error object with all its properties
+    Alert.alert('Login Error', `Type: ${error.name}\nMessage: ${error.message}`);
     throw error; // Re-throw the error for possible further handling
-  }
+  }  
 };
 
 

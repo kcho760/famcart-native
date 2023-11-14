@@ -110,17 +110,14 @@ function ListDetails() {
       <Text style={{ fontWeight: 'bold', color: 'white' }}>Delete</Text>
     </View>
   )}
-  <View style={{ flex: 4, alignItems: 'center' }}>
+  <View style={{ flex: 2, alignItems: 'center' }}>
     <Text style={{ fontWeight: 'bold', color: 'white' }}>Item</Text>
   </View>
-  <View style={{ flex: 1, alignItems: 'center' }}>
+  <View style={{ flex: 2, alignItems: 'center' }}>
     <Text style={{ fontWeight: 'bold', color: 'white' }}>#</Text>
   </View>
   <View style={{ flex: 2, alignItems: 'center' }}>
     <Text style={{ fontWeight: 'bold', color: 'white' }}>Date</Text>
-  </View>
-  <View style={{ flex: 2, alignItems: 'center' }}>
-    <Text style={{ fontWeight: 'bold', color: 'white' }}>Added By</Text>
   </View>
 </View>
 
@@ -138,7 +135,7 @@ function ListDetails() {
               </View>
             )}
             {/* List Item Components */}
-            <View style={{ flexDirection: 'row', alignItems: 'center', flex: 3, minWidth: 100 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', flex: 3, minWidth: 80 }}>
               <Checkbox
                 status={listItem.checked ? 'checked' : 'unchecked'}
                 onPress={() => handleCheckboxChange(currentList.id, listItem.id, !listItem.checked)}
@@ -150,27 +147,15 @@ function ListDetails() {
               )}
             </View>
 
-            <View style={{ flex: 1, minWidth: 50, alignItems: 'center' }}>
+            <View style={{ flex: 1, minWidth: 50, alignItems: 'left' }}>
               <Text>{listItem.quantity}</Text>
             </View>
-            <View style={{ flex: 1, minWidth: 50, alignItems: 'center' }}>
-              {listItem.item && listItem.item.unit ? (
-                <Text>{listItem.item.unit}</Text>
-              ) : (
-                <Text>Loading</Text>
-              )}
-            </View>
 
-            <View style={{ flex: 2, minWidth: 100, alignItems: 'center' }}>
+
+            <View style={{ flex: 1, minWidth: 50, alignItems: 'left' }}>
               <Text>{formatDate(listItem.created_at)}</Text>
             </View>
-            <View style={{ flex: 2, minWidth: 100, alignItems: 'center' }}>
-              {listItem.item && listItem.item.added_by_name ? (
-                <Text>{listItem.item.added_by_name}</Text>
-              ) : (
-                <Text>Loading</Text>
-              )}
-            </View>
+
           </View>
         )}
       />
