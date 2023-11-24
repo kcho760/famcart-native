@@ -1,5 +1,5 @@
 {
-  "name": "awesomeproject",
+  "name": "famcart",
   "version": "1.0.0",
   "scripts": {
     "start": "expo start --dev-client",

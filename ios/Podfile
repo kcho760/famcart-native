@@ -37,7 +37,7 @@ prepare_react_native_project!
 #   end
 # end
 
-target 'AwesomeProject' do
+target 'famcart' do
   use_expo_modules!
   config = use_native_modules!
 

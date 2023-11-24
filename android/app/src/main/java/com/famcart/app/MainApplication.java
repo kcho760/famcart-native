@@ -1,4 +1,4 @@
-package famcartcom.famcart.app;
+package com.famcart.app;
 
 import android.app.Application;
 import android.content.res.Configuration;
@@ -18,7 +18,7 @@ import com.facebook.soloader.SoLoader;
 
 import expo.modules.ApplicationLifecycleDispatcher;
 import expo.modules.ReactNativeHostWrapper;
-import famcartcom.famcart.app.BuildConfig;
+import com.famcart.app.BuildConfig;
 
 import java.util.List;
 

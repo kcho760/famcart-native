@@ -1,10 +1,10 @@
-package famcartcom.famcart.app;
+package com.famcart.app;
 
 import android.os.Build;
 import android.os.Bundle;
 
-import famcartcom.famcart.app.BuildConfig;
-import famcartcom.famcart.app.R;
+import com.famcart.app.BuildConfig;
+import com.famcart.app.R;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;

@@ -88,9 +88,9 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     // namespace "com.awesomeproject"
-    namespace "famcartcom.famcart.app"
+    namespace "com.famcart.app"
     defaultConfig {
-        applicationId 'famcartcom.famcart.app'
+        applicationId 'com.famcart.app'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
